@@ -1,0 +1,16 @@
+{
+  "clientes": [
+    {
+      "id": "0",
+      "nome": "João da Silva",
+      "email": "joao-silva@faturar.digital",
+      "cpf": "313.666.700-00"
+    },
+    {
+      "id": "1",
+      "nome": "Maria da Silva",
+      "email": "maria-silva@faturar.digital",
+      "cpf": "906.339.760-75"
+    }
+  ]
+}
