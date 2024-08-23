@@ -6,7 +6,7 @@ import useModalStore from "../../store/modal";
 
 export function TableButtons() {
   const [searchBarValue, setSearchBarValue] = useState("");
-  const openModal = useModalStore((store) => store.openModal);
+  const modalStore = useModalStore((store) => store);
   const filterClientes = useClienteStore((store) => store.filterClientes);
 
   return (
@@ -41,7 +41,11 @@ export function TableButtons() {
         data-modal-toggle="crud-modal"
         className="focus:outline-none text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-md px-5 py-2.5 ml-6 shadow-md shadow-green-900"
         onClick={() => {
-          openModal();
+          modalStore.toggleMode("create");
+          modalStore.setNome("");
+          modalStore.setEmail("");
+          modalStore.setCpf("");
+          modalStore.openModal();
         }}
       >
         Novo Cliente

@@ -3,12 +3,14 @@ import { useEffect, useState } from "react";
 
 import { useClienteStore } from "../../services/api";
 import { Loading } from "./loading";
+import useModalStore from "../../store/modal";
 
 export function Table() {
   const [isLoading, setIsLoading] = useState(true);
   const clienteStore = useClienteStore((store) => store);
   const clientes = useClienteStore((state) => state.clientes);
   const filteredClientes = useClienteStore((state) => state.filteredClientes);
+  const modalStore = useModalStore((store) => store);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -46,31 +48,42 @@ export function Table() {
             </thead>
             <tbody>
               {(filteredClientes.length > 0 ? filteredClientes : clientes).map(
-                (user) => {
+                (cliente) => {
                   return (
                     <tr
                       className=" border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
-                      key={user.id}
+                      key={cliente.id}
                     >
-                      <th className="px-6 py-4 text-zinc-300">{user.id}</th>
+                      <th className="px-6 py-4 text-zinc-300">{cliente.id}</th>
                       <td
                         scope="row"
                         className="px-6 py-4 font-medium whitespace-nowrap text-zinc-300"
                       >
-                        {user.nome}
+                        {cliente.nome}
                       </td>
-                      <td className="px-6 py-4 text-zinc-300">{user.email}</td>
-                      <td className="px-6 py-4 text-zinc-300">{user.cpf}</td>
+                      <td className="px-6 py-4 text-zinc-300">
+                        {cliente.email}
+                      </td>
+                      <td className="px-6 py-4 text-zinc-300">{cliente.cpf}</td>
                       <td className="px-6 py-4 text-zinc-300">
                         <a
                           href="#"
                           className="font-medium ml-1 mr-3 text-blue-500 hover:underline hover:text-blue-300"
+                          onClick={() => {
+                            modalStore.toggleMode("edit");
+                            modalStore.setId(cliente.id);
+                            modalStore.setNome(cliente.nome);
+                            modalStore.setEmail(cliente.email);
+                            modalStore.setCpf(cliente.cpf);
+                            modalStore.openModal();
+                          }}
                         >
                           Editar
                         </a>
                         <a
                           href="#"
                           className="font-medium text-red-500 hover:underline hover:text-red-300"
+                          onClick={() => clienteStore.deleteCliente(cliente.id)}
                         >
                           Excluir
                         </a>
