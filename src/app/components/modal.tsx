@@ -1,7 +1,8 @@
 "use client";
 import { X } from "lucide-react";
+import { toast } from "react-toastify";
+
 import useModalStore from "../../store/modal";
-import { useState } from "react";
 import { useClienteStore } from "../../services/api";
 
 export function ModalCliente() {
@@ -33,6 +34,7 @@ export function ModalCliente() {
       onClick={(event) => {
         if (event.target === event.currentTarget) {
           modalStore.closeModal();
+          toast.error("Edição cancelada.");
         }
       }}
     >
@@ -47,7 +49,12 @@ export function ModalCliente() {
               className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               data-modal-toggle="crud-modal"
             >
-              <X onClick={() => modalStore.closeModal()} />
+              <X
+                onClick={() => {
+                  modalStore.closeModal();
+                  toast.error("Edição cancelada.");
+                }}
+              />
             </button>
           </div>
           <form className="p-4 md:p-5">
@@ -113,8 +120,10 @@ export function ModalCliente() {
                 event.preventDefault();
                 if (modalStore.mode === "create") {
                   clienteStore.addCliente({ nome, email, cpf });
+                  toast.success("Cliente adicionado.");
                 } else {
                   clienteStore.updateCliente(id, { nome, email, cpf });
+                  toast.success("Cliente editado.");
                 }
                 modalStore.setNome("");
                 modalStore.setEmail("");

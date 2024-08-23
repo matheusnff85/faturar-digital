@@ -11,12 +11,6 @@
       "nome": "Maria da Silva",
       "email": "maria-silva@faturar.digital",
       "cpf": "906.339.760-75"
-    },
-    {
-      "nome": "John Doe",
-      "email": "examplo@gmail.com",
-      "cpf": "123.456.789-10",
-      "id": 2
     }
   ]
 }

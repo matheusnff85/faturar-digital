@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
 import { useClienteStore } from "../../services/api";
 import { Loading } from "./loading";
@@ -76,6 +77,7 @@ export function Table() {
                             modalStore.setEmail(cliente.email);
                             modalStore.setCpf(cliente.cpf);
                             modalStore.openModal();
+                            toast.warn("Editando cliente.");
                           }}
                         >
                           Editar
@@ -83,7 +85,10 @@ export function Table() {
                         <a
                           href="#"
                           className="font-medium text-red-500 hover:underline hover:text-red-300"
-                          onClick={() => clienteStore.deleteCliente(cliente.id)}
+                          onClick={() => {
+                            clienteStore.deleteCliente(cliente.id);
+                            toast.error("Cliente removido.");
+                          }}
                         >
                           Excluir
                         </a>

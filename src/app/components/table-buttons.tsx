@@ -1,6 +1,7 @@
 "use client";
 import { Search, X } from "lucide-react";
 import { useState } from "react";
+
 import { useClienteStore } from "../../services/api";
 import useModalStore from "../../store/modal";
 
