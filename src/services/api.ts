@@ -19,7 +19,7 @@ interface StoreState {
   filterClientes: (searchTerm: string) => void;
 }
 
-const API_URL = "";
+const API_URL = "http://localhost:5252/clientes";
 
 export const useClienteStore = create<StoreState>((set, get) => ({
   clientes: [],
