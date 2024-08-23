@@ -34,7 +34,11 @@ export function ModalCliente() {
       onClick={(event) => {
         if (event.target === event.currentTarget) {
           modalStore.closeModal();
-          toast.error("Edição cancelada.");
+          toast.error(
+            modalStore.mode === "create"
+              ? "Criação cancelada."
+              : "Edição cancelada."
+          );
         }
       }}
     >
@@ -42,7 +46,9 @@ export function ModalCliente() {
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-              Criar Novo Cliente
+              {modalStore.mode === "create"
+                ? "Adicionar Cliente"
+                : "Editar Cliente"}
             </h3>
             <button
               type="button"
@@ -52,7 +58,11 @@ export function ModalCliente() {
               <X
                 onClick={() => {
                   modalStore.closeModal();
-                  toast.error("Edição cancelada.");
+                  toast.error(
+                    modalStore.mode === "create"
+                      ? "Criação cancelada."
+                      : "Edição cancelada."
+                  );
                 }}
               />
             </button>
@@ -123,7 +133,7 @@ export function ModalCliente() {
                   toast.success("Cliente adicionado.");
                 } else {
                   clienteStore.updateCliente(id, { nome, email, cpf });
-                  toast.success("Cliente editado.");
+                  toast.success("Cliente atualizado.");
                 }
                 modalStore.setNome("");
                 modalStore.setEmail("");
