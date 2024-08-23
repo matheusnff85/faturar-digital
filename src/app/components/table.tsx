@@ -7,7 +7,8 @@ import { Loading } from "./loading";
 export function Table() {
   const [isLoading, setIsLoading] = useState(true);
   const clienteStore = useClienteStore((store) => store);
-  const users = useClienteStore((state) => state.clientes);
+  const clientes = useClienteStore((state) => state.clientes);
+  const filteredClientes = useClienteStore((state) => state.filteredClientes);
 
   useEffect(() => {
     const fetchApi = async () => {
@@ -44,38 +45,40 @@ export function Table() {
               </tr>
             </thead>
             <tbody>
-              {users.map((user) => {
-                return (
-                  <tr
-                    className=" border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
-                    key={user.id}
-                  >
-                    <th className="px-6 py-4 text-zinc-300">{user.id}</th>
-                    <td
-                      scope="row"
-                      className="px-6 py-4 font-medium whitespace-nowrap text-zinc-300"
+              {(filteredClientes.length > 0 ? filteredClientes : clientes).map(
+                (user) => {
+                  return (
+                    <tr
+                      className=" border-b bg-gray-800 border-gray-700 hover:bg-gray-600"
+                      key={user.id}
                     >
-                      {user.nome}
-                    </td>
-                    <td className="px-6 py-4 text-zinc-300">{user.email}</td>
-                    <td className="px-6 py-4 text-zinc-300">{user.cpf}</td>
-                    <td className="px-6 py-4 text-zinc-300">
-                      <a
-                        href="#"
-                        className="font-medium ml-1 mr-3 text-blue-500 hover:underline hover:text-blue-300"
+                      <th className="px-6 py-4 text-zinc-300">{user.id}</th>
+                      <td
+                        scope="row"
+                        className="px-6 py-4 font-medium whitespace-nowrap text-zinc-300"
                       >
-                        Editar
-                      </a>
-                      <a
-                        href="#"
-                        className="font-medium text-red-500 hover:underline hover:text-red-300"
-                      >
-                        Excluir
-                      </a>
-                    </td>
-                  </tr>
-                );
-              })}
+                        {user.nome}
+                      </td>
+                      <td className="px-6 py-4 text-zinc-300">{user.email}</td>
+                      <td className="px-6 py-4 text-zinc-300">{user.cpf}</td>
+                      <td className="px-6 py-4 text-zinc-300">
+                        <a
+                          href="#"
+                          className="font-medium ml-1 mr-3 text-blue-500 hover:underline hover:text-blue-300"
+                        >
+                          Editar
+                        </a>
+                        <a
+                          href="#"
+                          className="font-medium text-red-500 hover:underline hover:text-red-300"
+                        >
+                          Excluir
+                        </a>
+                      </td>
+                    </tr>
+                  );
+                }
+              )}
             </tbody>
           </table>
         </div>

@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Interface IUser
 export interface IUser {
-  id: string;
+  id: number;
   nome: string;
   email: string;
   cpf: string;
@@ -11,16 +11,19 @@ export interface IUser {
 
 interface StoreState {
   clientes: IUser[];
+  filteredClientes: IUser[];
   fetchClientes: () => Promise<void>;
   addCliente: (newCliente: Omit<IUser, "id">) => Promise<void>;
-  updateCliente: (id: string, updatedCliente: Partial<IUser>) => Promise<void>;
-  deleteCliente: (id: string) => Promise<void>;
+  updateCliente: (id: number, updatedCliente: Partial<IUser>) => Promise<void>;
+  deleteCliente: (id: number) => Promise<void>;
+  filterClientes: (searchTerm: string) => void;
 }
 
 const API_URL = "http://localhost:5000/clientes";
 
-export const useClienteStore = create<StoreState>((set) => ({
+export const useClienteStore = create<StoreState>((set, get) => ({
   clientes: [],
+  filteredClientes: [],
 
   fetchClientes: async () => {
     try {
@@ -42,7 +45,7 @@ export const useClienteStore = create<StoreState>((set) => ({
     }
   },
 
-  updateCliente: async (id: string, updatedCliente: Partial<IUser>) => {
+  updateCliente: async (id: number, updatedCliente: Partial<IUser>) => {
     try {
       const response = await axios.patch<IUser>(
         `${API_URL}/${id}`,
@@ -58,7 +61,7 @@ export const useClienteStore = create<StoreState>((set) => ({
     }
   },
 
-  deleteCliente: async (id: string) => {
+  deleteCliente: async (id: number) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
       set((state) => ({
@@ -67,5 +70,16 @@ export const useClienteStore = create<StoreState>((set) => ({
     } catch (error) {
       console.error("Erro ao deletar cliente:", error);
     }
+  },
+
+  filterClientes: (searchTerm: string) => {
+    const clientes = get().clientes;
+    const filtered = clientes.filter(
+      (cliente) =>
+        cliente.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cliente.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        cliente.cpf.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    set({ filteredClientes: filtered });
   },
 }));
