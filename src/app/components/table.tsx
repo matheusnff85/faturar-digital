@@ -77,7 +77,7 @@ export function Table() {
                             modalStore.setEmail(cliente.email);
                             modalStore.setCpf(cliente.cpf);
                             modalStore.openModal();
-                            toast.warn("Editando cliente.");
+                            toast.warn("Editando cliente...");
                           }}
                         >
                           Editar

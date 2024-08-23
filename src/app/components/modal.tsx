@@ -36,7 +36,7 @@ export function ModalCliente() {
           modalStore.closeModal();
           toast.error(
             modalStore.mode === "create"
-              ? "Criação cancelada."
+              ? "Adição cancelada."
               : "Edição cancelada."
           );
         }

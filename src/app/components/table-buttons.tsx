@@ -1,6 +1,7 @@
 "use client";
 import { Search, X } from "lucide-react";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import { useClienteStore } from "../../services/api";
 import useModalStore from "../../store/modal";
@@ -47,6 +48,7 @@ export function TableButtons() {
           modalStore.setEmail("");
           modalStore.setCpf("");
           modalStore.openModal();
+          toast.warn("Adicionando cliente...");
         }}
       >
         Novo Cliente
