@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "npm run db && next start",
+    "start": "next start",
     "db": "json-server src/database/db.json --port 5252",
     "lint": "next lint"
   },
