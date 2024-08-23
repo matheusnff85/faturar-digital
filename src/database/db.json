@@ -11,6 +11,12 @@
       "nome": "Maria da Silva",
       "email": "maria-silva@faturar.digital",
       "cpf": "906.339.760-75"
+    },
+    {
+      "nome": "Thiago Lima",
+      "email": "thiago@gmail.com",
+      "cpf": "333.444.455-88",
+      "id": 2
     }
   ]
 }
