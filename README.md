@@ -2,7 +2,7 @@
 
 #### Link para aplicação: https://faturar-digital.vercel.app/
 
-### Link para o vídeo explicativo: https://www.youtube.com/watch?v=QmQinTkZkno
+#### Link para o vídeo explicativo: https://www.youtube.com/watch?v=QmQinTkZkno
 
 Sistema de gestão de clientes feito em página única, permite a adição, atualização e exclusão de clientes, além da visualização em tabela da lista completa de clientes cadastrados.
 
