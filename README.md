@@ -2,6 +2,8 @@
 
 #### Link para aplicação: https://faturar-digital.vercel.app/
 
+### Link para o vídeo explicativo: https://www.youtube.com/watch?v=QmQinTkZkno
+
 Sistema de gestão de clientes feito em página única, permite a adição, atualização e exclusão de clientes, além da visualização em tabela da lista completa de clientes cadastrados.
 
 ## Stacks utilizadas
@@ -14,6 +16,7 @@ Sistema de gestão de clientes feito em página única, permite a adição, atua
 - **ESLint:** Ferramenta de linting para identificar e corrigir problemas de código.
 - **Tailwind CSS:** Framework CSS utilitário para criar designs responsivos e personalizados.
 - **Toastify:** Biblioteca para exibir notificações toast em aplicações web.
+- **Json Server:** Ferramenta para simulação de uma API para o banco de dados.
 - **Lucide React:** Conjunto de ícones em React com base em Lucide.
 
 ## Rodando localmente
