@@ -1,85 +1,73 @@
 import { create } from "zustand";
-import axios from "axios";
+import {
+  fetchClientes,
+  addCliente,
+  updateCliente,
+  deleteCliente,
+  filterClientes,
+} from "../database/database";
 
-// Interface IUser
-export interface IUser {
+interface Cliente {
   id: number;
   nome: string;
   email: string;
   cpf: string;
 }
 
-interface StoreState {
-  clientes: IUser[];
-  filteredClientes: IUser[];
-  fetchClientes: () => Promise<void>;
-  addCliente: (newCliente: Omit<IUser, "id">) => Promise<void>;
-  updateCliente: (id: number, updatedCliente: Partial<IUser>) => Promise<void>;
-  deleteCliente: (id: number) => Promise<void>;
+interface ClienteState {
+  clientes: Cliente[];
+  filteredClientes: Cliente[];
+  fetchClientes: () => void;
+  addCliente: (cliente: Omit<Cliente, "id">) => void;
+  updateCliente: (id: number, clienteData: Partial<Cliente>) => void;
+  deleteCliente: (id: number) => void;
   filterClientes: (searchTerm: string) => void;
 }
 
-const API_URL = "http://localhost:5252/clientes";
-
-export const useClienteStore = create<StoreState>((set, get) => ({
+export const useClienteStore = create<ClienteState>((set) => ({
   clientes: [],
   filteredClientes: [],
 
-  fetchClientes: async () => {
-    try {
-      const response = await axios.get<IUser[]>(API_URL);
-      set({ clientes: response.data });
-    } catch (error) {
-      console.error("Erro ao buscar clientes:", error);
-    }
+  fetchClientes: () => {
+    const clientes = fetchClientes();
+    set({ clientes, filteredClientes: clientes });
   },
 
-  addCliente: async (newCliente: Omit<IUser, "id">) => {
-    try {
-      const response = await axios.post<IUser>(API_URL, newCliente);
-      set((state) => ({
-        clientes: [...state.clientes, response.data],
-      }));
-    } catch (error) {
-      console.error("Erro ao adicionar cliente:", error);
-    }
+  addCliente: (cliente) => {
+    const novoCliente = addCliente(cliente);
+    set((state) => ({
+      clientes: [...state.clientes, novoCliente],
+      filteredClientes: [...state.filteredClientes, novoCliente],
+    }));
   },
 
-  updateCliente: async (id: number, updatedCliente: Partial<IUser>) => {
-    try {
-      const response = await axios.patch<IUser>(
-        `${API_URL}/${id}`,
-        updatedCliente
-      );
+  updateCliente: (id, clienteData) => {
+    const clienteAtualizado = updateCliente(id, clienteData);
+    if (clienteAtualizado) {
       set((state) => ({
         clientes: state.clientes.map((cliente) =>
-          cliente.id === id ? response.data : cliente
+          cliente.id === id ? clienteAtualizado : cliente
+        ),
+        filteredClientes: state.filteredClientes.map((cliente) =>
+          cliente.id === id ? clienteAtualizado : cliente
         ),
       }));
-    } catch (error) {
-      console.error("Erro ao atualizar cliente:", error);
     }
   },
 
-  deleteCliente: async (id: number) => {
-    try {
-      await axios.delete(`${API_URL}/${id}`);
-      set((state) => ({
-        clientes: state.clientes.filter((cliente) => cliente.id !== id),
-      }));
-    } catch (error) {
-      console.error("Erro ao deletar cliente:", error);
-    }
+  deleteCliente: (id) => {
+    deleteCliente(id);
+    set((state) => ({
+      clientes: state.clientes.filter((cliente) => cliente.id !== id),
+      filteredClientes: state.filteredClientes.filter(
+        (cliente) => cliente.id !== id
+      ),
+    }));
   },
 
-  filterClientes: (searchTerm: string) => {
-    const clientes = get().clientes;
-    const filtered = clientes.filter(
-      (cliente) =>
-        cliente.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cliente.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        cliente.cpf.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    set({ filteredClientes: filtered });
+  filterClientes: (searchTerm) => {
+    set((state) => ({
+      filteredClientes: filterClientes(searchTerm),
+    }));
   },
 }));
