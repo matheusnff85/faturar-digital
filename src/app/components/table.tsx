@@ -14,9 +14,9 @@ export function Table() {
   const modalStore = useModalStore((store) => store);
 
   useEffect(() => {
-    const fetchApi = async () => {
+    const fetchApi = () => {
       setIsLoading(true);
-      await clienteStore.fetchClientes();
+      clienteStore.fetchClientes();
       setIsLoading(false);
     };
     fetchApi();
@@ -87,6 +87,7 @@ export function Table() {
                           className="font-medium text-red-500 hover:underline hover:text-red-300"
                           onClick={() => {
                             clienteStore.deleteCliente(cliente.id);
+                            clienteStore.fetchClientes();
                             toast.error("Cliente removido.");
                           }}
                         >

@@ -30,39 +30,26 @@ export const useClienteStore = create<ClienteState>((set) => ({
 
   fetchClientes: () => {
     const clientes = fetchClientes();
-    set({ clientes, filteredClientes: clientes });
+    set({ clientes: clientes, filteredClientes: [] });
   },
 
   addCliente: (cliente) => {
-    const novoCliente = addCliente(cliente);
-    set((state) => ({
-      clientes: [...state.clientes, novoCliente],
-      filteredClientes: [...state.filteredClientes, novoCliente],
-    }));
+    addCliente(cliente);
+    fetchClientes();
   },
 
   updateCliente: (id, clienteData) => {
     const clienteAtualizado = updateCliente(id, clienteData);
     if (clienteAtualizado) {
-      set((state) => ({
-        clientes: state.clientes.map((cliente) =>
-          cliente.id === id ? clienteAtualizado : cliente
-        ),
-        filteredClientes: state.filteredClientes.map((cliente) =>
-          cliente.id === id ? clienteAtualizado : cliente
-        ),
-      }));
+      fetchClientes();
     }
   },
 
   deleteCliente: (id) => {
-    deleteCliente(id);
-    set((state) => ({
-      clientes: state.clientes.filter((cliente) => cliente.id !== id),
-      filteredClientes: state.filteredClientes.filter(
-        (cliente) => cliente.id !== id
-      ),
-    }));
+    const deletedCliente = deleteCliente(id);
+    if (deletedCliente) {
+      fetchClientes();
+    }
   },
 
   filterClientes: (searchTerm) => {
