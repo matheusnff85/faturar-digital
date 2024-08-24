@@ -55,6 +55,9 @@ export const useClienteStore = create<StoreState>((set, get) => ({
         clientes: state.clientes.map((cliente) =>
           cliente.id === id ? response.data : cliente
         ),
+        filteredClientes: state.filteredClientes.map((cliente) =>
+          cliente.id === id ? response.data : cliente
+        ),
       }));
     } catch (error) {
       console.error("Erro ao atualizar cliente:", error);
@@ -66,6 +69,9 @@ export const useClienteStore = create<StoreState>((set, get) => ({
       await axios.delete(`${API_URL}/${id}`);
       set((state) => ({
         clientes: state.clientes.filter((cliente) => cliente.id !== id),
+        filteredClientes: state.filteredClientes.filter(
+          (cliente) => cliente.id !== id
+        ),
       }));
     } catch (error) {
       console.error("Erro ao deletar cliente:", error);
